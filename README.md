@@ -69,7 +69,7 @@ These datasets were explored, cleaned, and analyzed to find correlations that he
 
 Here’s a screenshot showing the working of the **Diagnosify** app:
 
-![App Demonstration](images/demonstration.png)
+![App Demonstration](images/demostration.png)
 
 ---
 
