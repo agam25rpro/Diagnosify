@@ -65,6 +65,14 @@ These datasets were explored, cleaned, and analyzed to find correlations that he
 
 ---
 
+## 🖼️ Demonstration  
+
+Here’s a screenshot showing the working of the **Diagnosify** app:
+
+![App Demonstration](images/demonstration.png)
+
+---
+
 ## 🛠️ Technologies Used  
 
 - **Machine Learning**: Random Forest, Logistic Regression, Support Vector Machine  
@@ -77,5 +85,5 @@ These datasets were explored, cleaned, and analyzed to find correlations that he
 ## 🚀 How to Run  
 
 1. Clone the repository:  
-   ```bash  
-   git clone https://github.com/agam25rpro/Diagnosify
+```bash  
+git clone https://github.com/agam25rpro/Diagnosify
