@@ -78,4 +78,4 @@ These datasets were explored, cleaned, and analyzed to find correlations that he
 
 1. Clone the repository:  
    ```bash  
-   git clone https://github.com/your-username/your-repo.git  
+   git clone https://github.com/agam25rpro/Diagnosify
