@@ -16,13 +16,13 @@ It uses **Support Vector Machines (SVM)**, a robust and efficient machine learni
 ## 📚 Datasets  
 
 The datasets used for this project are included in the repository:  
-- [Diabetes Dataset](diabetes_dataset.csv)  
+- [Diabetes Dataset](diabetes.csv)  
 
 **Parkinson’s Dataset**  
-- [Parkinson’s Dataset](parkinsons_dataset.csv)  
+- [Parkinson’s Dataset](parkinsons.csv)  
 
 **Heart Disease Dataset**  
-- [Heart Disease Dataset](heart_disease_dataset.csv)  
+- [Heart Disease Dataset](heart_disease_data.csv)  
 
 These datasets were explored, cleaned, and analyzed to find correlations that helped build reliable machine learning models.  
 
