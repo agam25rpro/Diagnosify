@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heart Disease Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+        }
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        table, th, td {
+            color: #fff !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="container mt-5">
+        <h1 class="text-center">Heart Disease Prediction using ML</h1>
+        <h4 class="text-center mb-4">Model accuracy: 81.96%</h4>
+        
+        <form method="POST" class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Age</label>
+                <input type="number" step="any" name="age" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Sex</label>
+                <input type="number" step="any" name="sex" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Chest Pain types</label>
+                <input type="number" step="any" name="cp" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Resting Blood Pressure</label>
+                <input type="number" step="any" name="trestbps" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Serum Cholestoral in mg/dl</label>
+                <input type="number" step="any" name="chol" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Fasting Blood Sugar > 120 mg/dl</label>
+                <input type="number" step="any" name="fbs" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Resting Electrocardiographic results</label>
+                <input type="number" step="any" name="restecg" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Maximum Heart Rate achieved</label>
+                <input type="number" step="any" name="thalach" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Exercise Induced Angina</label>
+                <input type="number" step="any" name="exang" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">ST depression induced by exercise</label>
+                <input type="number" step="any" name="oldpeak" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Slope of the peak exercise ST segment</label>
+                <input type="number" step="any" name="slope" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Major vessels colored by flourosopy</label>
+                <input type="number" step="any" name="ca" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">thal: 0 = normal; 1 = fixed defect; 2 = reversable defect</label>
+                <input type="number" step="any" name="thal" class="form-control" required>
+            </div>
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary">Get Prediction</button>
+                <a href="/" class="btn btn-secondary">Back to Home</a>
+            </div>
+        </form>
+        
+        {% if diagnosis %}
+        <div class="alert alert-success mt-4 text-center" role="alert">
+            {{ diagnosis }}
+        </div>
+        {% endif %}
+
+        <div class="mt-5">
+            <h3>Sample Test Values for Heart Disease Prediction</h3>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Valid Range</th>
+                            <th>Sample Value</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Age</td>
+                            <td>29-77</td>
+                            <td>52</td>
+                            <td>Age in years</td>
+                        </tr>
+                        <tr>
+                            <td>Sex</td>
+                            <td>0-1</td>
+                            <td>1</td>
+                            <td>0 = female, 1 = male</td>
+                        </tr>
+                        <tr>
+                            <td>Chest Pain Type</td>
+                            <td>0-3</td>
+                            <td>2</td>
+                            <td>0 = typical angina, 1 = atypical angina, 2 = non-anginal pain, 3 = asymptomatic</td>
+                        </tr>
+                        <tr>
+                            <td>Resting Blood Pressure</td>
+                            <td>94-200</td>
+                            <td>125</td>
+                            <td>Resting blood pressure in mm Hg</td>
+                        </tr>
+                        <tr>
+                            <td>Serum Cholesterol</td>
+                            <td>126-564</td>
+                            <td>212</td>
+                            <td>Serum cholesterol in mg/dl</td>
+                        </tr>
+                        <tr>
+                            <td>Fasting Blood Sugar</td>
+                            <td>0-1</td>
+                            <td>0</td>
+                            <td>0 = ≤ 120 mg/dl, 1 = > 120 mg/dl</td>
+                        </tr>
+                        <tr>
+                            <td>Resting ECG</td>
+                            <td>0-2</td>
+                            <td>1</td>
+                            <td>0 = normal, 1 = having ST-T wave abnormality, 2 = showing probable or definite left ventricular hypertrophy</td>
+                        </tr>
+                        <tr>
+                            <td>Maximum Heart Rate</td>
+                            <td>71-202</td>
+                            <td>168</td>
+                            <td>Maximum heart rate achieved</td>
+                        </tr>
+                        <tr>
+                            <td>Exercise Induced Angina</td>
+                            <td>0-1</td>
+                            <td>0</td>
+                            <td>0 = no, 1 = yes</td>
+                        </tr>
+                        <tr>
+                            <td>ST Depression</td>
+                            <td>0-6.2</td>
+                            <td>1.0</td>
+                            <td>ST depression induced by exercise relative to rest</td>
+                        </tr>
+                        <tr>
+                            <td>Slope</td>
+                            <td>0-2</td>
+                            <td>1</td>
+                            <td>0 = upsloping, 1 = flat, 2 = downsloping</td>
+                        </tr>
+                        <tr>
+                            <td>Number of Vessels</td>
+                            <td>0-3</td>
+                            <td>0</td>
+                            <td>Number of major vessels colored by fluoroscopy</td>
+                        </tr>
+                        <tr>
+                            <td>Thal</td>
+                            <td>0-2</td>
+                            <td>2</td>
+                            <td>0 = normal, 1 = fixed defect, 2 = reversible defect</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 50,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#fff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": { "value": 0.4, "random": false, "anim": { "enable": false, "speed": 1, "opacity_min": 0.1, "sync": false } }, "size": { "value": 3, "random": true, "anim": { "enable": false, "speed": 40, "size_min": 0.1, "sync": false } }, "line_linked": { "enable": true, "distance": 150, "color": "#fff", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 } } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 400, "line_linked": { "opacity": 1 } }, "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 }, "repulse": { "distance": 200, "duration": 0.4 }, "push": { "particles_nb": 4 }, "remove": { "particles_nb": 2 } } }, "retina_detect": true }); </script> </body> </html>

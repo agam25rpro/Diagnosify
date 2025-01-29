@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parkinsons Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+        }
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        table, th, td {
+            color: #fff !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="container mt-5">
+        <h1 class="text-center">Parkinsons Disease Prediction using ML</h1>
+        <h4 class="text-center mb-4">Model accuracy: 87.17%</h4>
+        
+        <form method="POST" class="row g-3">
+            <!-- Form fields remain the same -->
+            <div class="col-md-4">
+                <label class="form-label">MDVP:Fo(Hz)</label>
+                <input type="number" step="any" name="fo" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">MDVP:Fhi(Hz)</label>
+                <input type="number" step="any" name="fhi" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">MDVP:Flo(Hz)</label>
+                <input type="number" step="any" name="flo" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">MDVP:Jitter(%)</label>
+                <input type="number" step="any" name="jitter_percent" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">MDVP:Jitter(Abs)</label>
+                <input type="number" step="any" name="jitter_abs" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">MDVP:RAP</label>
+                <input type="number" step="any" name="rap" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">MDVP:PPQ</label>
+                <input type="number" step="any" name="ppq" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Jitter:DDP</label>
+                <input type="number" step="any" name="ddp" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">MDVP:Shimmer</label>
+                <input type="number" step="any" name="shimmer" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">MDVP:Shimmer(dB)</label>
+                <input type="number" step="any" name="shimmer_db" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Shimmer:APQ3</label>
+                <input type="number" step="any" name="apq3" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Shimmer:APQ5</label>
+                <input type="number" step="any" name="apq5" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">MDVP:APQ</label>
+                <input type="number" step="any" name="apq" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Shimmer:DDA</label>
+                <input type="number" step="any" name="dda" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">NHR</label>
+                <input type="number" step="any" name="nhr" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">HNR</label>
+                <input type="number" step="any" name="hnr" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">RPDE</label>
+                <input type="number" step="any" name="rpde" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">DFA</label>
+                <input type="number" step="any" name="dfa" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">spread1</label>
+                <input type="number" step="any" name="spread1" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">spread2</label>
+                <input type="number" step="any" name="spread2" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">D2</label>
+                <input type="number" step="any" name="d2" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">PPE</label>
+                <input type="number" step="any" name="ppe" class="form-control" required>
+            </div>
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary">Get Prediction</button>
+                <a href="/" class="btn btn-secondary">Back to Home</a>
+            </div>
+        </form>
+        
+        {% if diagnosis %}
+        <div class="alert alert-success mt-4 text-center" role="alert">
+            {{ diagnosis }}
+        </div>
+        {% endif %}
+
+        <div class="mt-5">
+            <h3>Sample Test Values for Parkinsons Prediction</h3>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Valid Range</th>
+                            <th>Sample Value</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>MDVP:Fo(Hz)</td>
+                            <td>88.333-260.105</td>
+                            <td>119.992</td>
+                            <td>Average vocal fundamental frequency</td>
+                        </tr>
+                        <tr>
+                            <td>MDVP:Fhi(Hz)</td>
+                            <td>102.145-592.030</td>
+                            <td>157.302</td>
+                            <td>Maximum vocal fundamental frequency</td>
+                        </tr>
+                        <tr>
+                            <td>MDVP:Flo(Hz)</td>
+                            <td>65.476-239.170</td>
+                            <td>74.997</td>
+                            <td>Minimum vocal fundamental frequency</td>
+                        </tr>
+                        <tr>
+                            <td>MDVP:Jitter(%)</td>
+                            <td>0.001-0.033</td>
+                            <td>0.00784</td>
+                            <td>Measure of variation in fundamental frequency</td>
+                        </tr>
+                        <tr>
+                            <td>MDVP:Jitter(Abs)</td>
+                            <td>0.000007-0.00026</td>
+                            <td>0.00007</td>
+                            <td>Absolute measure of variation in fundamental frequency</td>
+                        </tr>
+                        <tr>
+                            <td>MDVP:RAP</td>
+                            <td>0.000680-0.021</td>
+                            <td>0.00370</td>
+                            <td>Relative amplitude perturbation</td>
+                        </tr>
+                        <tr>
+                            <td>MDVP:PPQ</td>
+                            <td>0.000920-0.019</td>
+                            <td>0.00554</td>
+                            <td>Five-point period perturbation quotient</td>
+                        </tr>
+                        <tr>
+                            <td>Jitter:DDP</td>
+                            <td>0.002-0.064</td>
+                            <td>0.01109</td>
+                            <td>Average absolute difference of differences between cycles</td>
+                        </tr>
+                        <tr> <td>MDVP:Shimmer</td> <td>0.013-0.119</td> <td>0.04374</td> <td>Measure of variation in amplitude</td> </tr> <tr> <td>MDVP:Shimmer(dB)</td> <td>0.111-1.302</td> <td>0.426</td> <td>Measure of variation in amplitude in decibels</td> </tr> <tr> <td>Shimmer:APQ3</td> <td>0.007-0.056</td> <td>0.02182</td> <td>Three-point amplitude perturbation quotient</td> </tr> <tr> <td>Shimmer:APQ5</td> <td>0.009-0.079</td> <td>0.03130</td> <td>Five-point amplitude perturbation quotient</td> </tr> <tr> <td>MDVP:APQ</td> <td>0.012-0.137</td> <td>0.02971</td> <td>Amplitude perturbation quotient</td> </tr> <tr> <td>Shimmer:DDA</td> <td>0.021-0.169</td> <td>0.06545</td> <td>Average absolute differences between consecutive differences</td> </tr> <tr> <td>NHR</td> <td>0.000650-0.315</td> <td>0.02326</td> <td>Noise to harmonic ratio</td> </tr> <tr> <td>HNR</td> <td>8.441-33.047</td> <td>21.033</td> <td>Harmonic to noise ratio</td> </tr> <tr> <td>RPDE</td> <td>0.151-0.966</td> <td>0.414783</td> <td>Recurrence period density entropy measure</td> </tr> <tr> <td>DFA</td> <td>0.514-0.825</td> <td>0.657</td> <td>Detrended fluctuation analysis</td> </tr> <tr> <td>spread1</td> <td>-7.965-(-2.434)</td> <td>-5.684</td> <td>Nonlinear measure of fundamental frequency variation</td> </tr> <tr> <td>spread2</td> <td>0.006-0.450</td> <td>0.174</td> <td>Nonlinear measure of fundamental frequency variation</td> </tr> <tr> <td>D2</td> <td>1.423-3.671</td> <td>2.301</td> <td>Correlation dimension</td> </tr> <tr> <td>PPE</td> <td>0.044-0.527</td> <td>0.206</td> <td>Pitch period entropy</td> </tr> </tbody> </table> </div> {# <div class="alert alert-info mt-4"> <h4>How to Use Test Values:</h4> <ol> <li>You can use the sample values provided in the table above to test the prediction model.</li> <li>Make sure all values fall within the specified valid ranges.</li> <li>All fields are required and must be numerical values.</li> <li>For best results, use values that are clinically relevant and within the normal ranges.</li> </ol> </div> #} </div> </div> <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> <script> particlesJS("particles-js", { "particles": { "number": { "value": 50, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#fff" }, "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000" }, "polygon": { "nb_sides": 5 } }, "opacity": { "value": 0.4, "random": false, "anim": { "enable": false, "speed": 1, "opacity_min": 0.1, "sync": false } }, "size": { "value": 3, "random": true, "anim": { "enable": false, "speed": 40, "size_min": 0.1, "sync": false } }, "line_linked": { "enable": true, "distance": 150, "color": "#fff", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 } } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 400, "line_linked": { "opacity": 1 } }, "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 }, "repulse": { "distance": 200, "duration": 0.4 }, "push": { "particles_nb": 4 }, "remove": { "particles_nb": 2 } } }, "retina_detect": true }); </script> </body> </html>
