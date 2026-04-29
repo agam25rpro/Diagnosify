@@ -1,7 +1,7 @@
 ﻿# **DIAGNOSIFY** 
 
 Welcome to the **Disease Diagnosis WebApp**! This project leverages the power of **machine learning** to diagnose diseases based on user inputs. 🚀
-**https://agamrampal1.pythonanywhere.com**
+**https://diagnosify-arb3.onrender.com**
 
 ## 🌟 Overview  
 
